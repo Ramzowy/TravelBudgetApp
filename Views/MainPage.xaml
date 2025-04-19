@@ -2,11 +2,152 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TravelBudgetApp.Views.MainPage"
-             Title="MainPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             BackgroundColor="#F8F9FA"
+             Padding="10,5"
+             NavigationPage.HasNavigationBar="False">
+    <!-- Reduced top padding -->
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+          RowSpacing="10" 
+        VerticalOptions="FillAndExpand">
+
+        <!-- Header (Row 0) - Ultra compact -->
+        <VerticalStackLayout Grid.Row="0" 
+                             Spacing="4" 
+                             HorizontalOptions="Center"
+                             Margin="0,30,0,5">
+            <!-- Bottom margin only -->
+            <Image Source="travel_icon2.png" 
+                   HeightRequest="30" 
+                HorizontalOptions="Center"/>
+                <Label Text="Travel Budget Appp"
+                    FontSize="18"
+                    FontAttributes="Bold" 
+                   TextColor="#2F3E46"/>
+        </VerticalStackLayout>
+
+        <!-- Budget Card (Row 1) - Compact -->
+        <Frame Grid.Row="1"
+               CornerRadius="10"
+               BackgroundColor="White" 
+               BorderColor="#E9ECEF"
+               Padding="10"
+               HeightRequest="70">
+            <!-- Fixed height -->
+            <Grid ColumnDefinitions="Auto,*"
+                  VerticalOptions="Center">
+                <Entry Placeholder="Amount"
+                       Keyboard="Numeric"
+                       FontSize="16"
+                       Margin="5"
+                       Text="{Binding Amount}"/>
+            </Grid>
+        </Frame>
+
+        <!-- Currency Selectors (Row 2) - Tight layout -->
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,Auto,*"
+              ColumnSpacing="6"
+              HeightRequest="90">
+            <!-- Reduced height -->
+
+            <!-- Home Currency -->
+            <Frame Grid.Column="0"
+                   CornerRadius="10"
+                   BackgroundColor="White"
+                   BorderColor="#E9ECEF"
+                   Padding="8">
+                <StackLayout Spacing="4">
+                    <Label Text="FROM" 
+                           FontSize="11"/>
+                    <Picker Title="Currency"
+                            FontSize="13"
+                            ItemsSource="{Binding AvailableCurrencies}"
+                            ItemDisplayBinding="{Binding DisplayString}"
+                            SelectedItem="{Binding HomeCurrency}"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- Swap Button -->
+            <Button Grid.Column="1"
+                    Text="⇄"
+                    FontSize="14"
+                    BackgroundColor="#4361EE"
+                    TextColor="White"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    CornerRadius="20"
+                    VerticalOptions="Center"
+                    Command="{Binding SwapCurrenciesCommand}"/>
+
+            <!-- Target Currency -->
+            <Frame Grid.Column="2"
+                   CornerRadius="10"
+                   BackgroundColor="White"
+                   BorderColor="#E9ECEF"
+                   Padding="8">
+                <StackLayout Spacing="4">
+                    <Label Text="TO" 
+                           FontSize="11"/>
+                    <Picker Title="Currency"
+                            FontSize="13"
+                            ItemsSource="{Binding AvailableCurrencies}"
+                            ItemDisplayBinding="{Binding DisplayString}"
+                            SelectedItem="{Binding TargetCurrency}"/>
+                </StackLayout>
+            </Frame>
+        </Grid>
+
+        <!-- Conversion & Button (Row 3) - Combined section -->
+        <StackLayout Grid.Row="3"
+                     Spacing="8">
+
+            <!-- Conversion Display - Compact -->
+            <Frame CornerRadius="10"
+                   BackgroundColor="#E6F2FF"
+                   Padding="10"
+                   HeightRequest="160">
+                <StackLayout Spacing="16"
+                             HorizontalOptions="Center">
+                    <Label Text="CONVERSION"
+                           FontSize="12"
+                           TextColor="#4361EE"/>
+                    <Label Text="{Binding ConvertedAmount,StringFormat='{0:N2}'}"
+                           FontSize="15"
+                           Margin="0"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"
+                           TextColor="#2F3E46"/>
+                    <Button Text="CALCULATE"
+                            CornerRadius="7"
+                            BackgroundColor="#4CC9F0"
+                            TextColor="White"
+                            Padding="5"
+                            FontSize="10"
+                            HeightRequest="32"
+                            Margin="0,18,0,0"
+                            HorizontalOptions="Center"
+                            Command="{Binding CalculateCommand}"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- Main Action Button -->
+            <Button Text="PLAN EXPENSES"
+                    CornerRadius="8"
+                    BackgroundColor="#4361EE"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HeightRequest="42" 
+                   Command ="{Binding NavigateToBudgetCommand}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" 
+                                 Binding="{Binding IsFormValid}" 
+                                 Value="False">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="BackgroundColor" Value="#B9C6E4"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </StackLayout>
+    </Grid>
 </ContentPage>
