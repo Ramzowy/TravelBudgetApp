@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using TravelBudgetApp.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using TravelBudgetApp.Views;
 
 namespace TravelBudgetApp.ViewModels
 {
@@ -15,6 +16,8 @@ namespace TravelBudgetApp.ViewModels
     {
 
         private readonly ExchangeRateService _exchangeRateService;
+
+        private readonly INavigation _navigation;
 
         [ObservableProperty]
         private ObservableCollection<Currency> _availableCurrencies;
@@ -35,10 +38,11 @@ namespace TravelBudgetApp.ViewModels
         private decimal _convertedAmount;
 
 
-        public MainPageViewModel(ExchangeRateService exchangeRateService)
+        public MainPageViewModel(ExchangeRateService exchangeRateService, INavigation navigation)
         {
             _exchangeRateService = exchangeRateService;
             InitializeAsync();
+            _navigation = navigation;
         }
 
         private async Task InitializeAsync()
@@ -79,5 +83,10 @@ namespace TravelBudgetApp.ViewModels
 
         }
 
+        [RelayCommand]
+        private async Task NavigateToBudget()
+        {
+            await _navigation.PushAsync(new ExpensePage(new ExpensePageViewModel(Amount, HomeCurrency, TargetCurrency, _exchangeRateService,_navigation)));
+        }
     }
 }

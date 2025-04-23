@@ -28,19 +28,38 @@
 
         <!-- Budget Card (Row 1) - Compact -->
         <Frame Grid.Row="1"
-               CornerRadius="10"
-               BackgroundColor="White" 
-               BorderColor="#E9ECEF"
-               Padding="10"
-               HeightRequest="70">
-            <!-- Fixed height -->
+       CornerRadius="10"
+       BackgroundColor="White" 
+       BorderColor="#E9ECEF"
+       Padding="10"
+       HeightRequest="70">
             <Grid ColumnDefinitions="Auto,*"
-                  VerticalOptions="Center">
-                <Entry Placeholder="Amount"
-                       Keyboard="Numeric"
-                       FontSize="16"
-                       Margin="5"
-                       Text="{Binding Amount}"/>
+          ColumnSpacing="8"
+          VerticalOptions="Center">
+
+                <!-- Budget Label -->
+                <Label Text="Budget:"
+               FontSize="16"
+               TextColor="#2F3E46"
+               VerticalOptions="Center"
+               Margin="5,0,0,0"/>
+
+                <!-- Amount Entry -->
+                <Entry Grid.Column="1"
+               Placeholder="Enter total budget"
+               Keyboard="Numeric"
+               FontSize="16"
+               Text="{Binding Amount}"
+               TextColor="#2F3E46"
+               HorizontalOptions="Fill"/>
+
+                <!-- Currency Symbol --><!--
+                <Label Grid.Column="2"
+               Text="{Binding HomeCurrency.Symbol}"
+               FontSize="16"
+               TextColor="#2F3E46"
+               VerticalOptions="Center"
+               Margin="0,0,5,0"/>-->
             </Grid>
         </Frame>
 

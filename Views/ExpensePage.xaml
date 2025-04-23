@@ -2,11 +2,135 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TravelBudgetApp.Views.ExpensePage"
-             Title="ExpensePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Expenses"
+             BackgroundColor="#F8F9FA"
+             NavigationPage.HasNavigationBar="False">
+
+   
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <!-- Total Amount Card -->
+            <Frame CornerRadius="12"
+                   BackgroundColor="White"
+                   BorderColor="#E9ECEF"
+                   Padding="16"
+                   HorizontalOptions="Fill">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Remaining Budget"
+                           FontSize="12"
+                           TextColor="#6C757D"/>
+
+                <Label FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#2F3E46">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding Amount, StringFormat='{0:N2}'}"/>
+                            <Span Text="{Binding HomeCurrency.Symbol}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </VerticalStackLayout>
+            </Frame>
+
+            <!-- Expense Input Card -->
+            <Frame CornerRadius="12"
+                   BackgroundColor="White"
+                   BorderColor="#E9ECEF"
+                   Padding="16">
+                <Grid ColumnDefinitions="*,*" 
+                      ColumnSpacing="12"
+                      RowSpacing="8">
+
+                    <!-- Expense Type Picker -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                        <Label Text="Expense Category"
+                               FontSize="12"
+                               TextColor="#6C757D"/>
+                        <Picker Title="Select..."
+                               ItemsSource="{Binding ExpensesList}"
+                               SelectedItem="{Binding SelectedExpense}"
+                               FontSize="14"
+                               TextColor="#2F3E46"
+                               BackgroundColor="Transparent"/>
+                    </VerticalStackLayout>
+
+                    <!-- Amount Entry -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="4">
+                        <Label Text="Foreign Amount"
+                               FontSize="12"
+                               TextColor="#6C757D"/>
+                        <Entry Text="{Binding ExpenseAmount}"
+                               Placeholder="0.00"
+                               Keyboard="Numeric"
+                               FontSize="14"
+                               TextColor="#2F3E46"
+                               HorizontalTextAlignment="End"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Frame>
+
+            <!-- Add Button -->
+            <Button Text="Add Expense"
+                    CornerRadius="8"
+                    BackgroundColor="#4361EE"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    Margin="0,8"
+                    Command="{Binding AddExpenseCommand}"/>
+
+            <!-- Expenses List Header -->
+            <Label Text="Your Expenses"
+                   FontSize="14"
+                   TextColor="#6C757D"
+                   Margin="0,8"/>
+
+            <!-- Expense List -->
+            <Frame CornerRadius="12"
+                   BackgroundColor="White"
+                   BorderColor="#E9ECEF"
+                   Padding="0"
+                   IsClippedToBounds="True">
+                <CollectionView ItemsSource="{Binding Expenses}"
+               SelectionMode="None"
+               EmptyView="No expenses added yet"
+                MaximumHeightRequest="70">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="16" ColumnDefinitions="*,Auto">
+                                <!-- Use 'Category' instead of 'Expense' -->
+                            <Label Grid.Column="0" Text="{Binding Category}"
+                                        FontSize="14"
+                                         TextColor="#2F3E46"
+                                       VerticalOptions="Center"/>
+
+                                <!-- Use 'AmountInTargetCurrency' instead of 'Amount' -->
+                            <Label Grid.Column="1"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#2F3E46">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                      <Span Text="{Binding AmountInHomeCurrency, StringFormat='{0:N2}'}"/>
+                                     <Span Text="{Binding TargetCurrency.Symbol}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+            <!-- Navigation Button -->
+            <Button Text="Back to Budget"
+                    VerticalOptions="End"
+                    CornerRadius="8"
+                    BackgroundColor="#ADB5BD"
+                    TextColor="White"
+                    HeightRequest="40"
+                    Margin="0,50,0,0"
+                    Command="{Binding GoBackCommand}"/>
+        </VerticalStackLayout>
 </ContentPage>
