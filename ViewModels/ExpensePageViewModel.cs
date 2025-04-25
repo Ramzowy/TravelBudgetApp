@@ -28,13 +28,7 @@ namespace TravelBudgetApp.ViewModels
         private Currency _targetCurrency;
 
         [ObservableProperty]
-        private ObservableCollection<string> _expensesList = new ObservableCollection<string>
-        {
-            "Accommodation","Food", "Transport", "Activities", "Miscellaneous"
-        };
-
-        [ObservableProperty]
-        private string _selectedExpense;
+        private string _enteredExpense;
 
         [ObservableProperty]
         private ObservableCollection<Expense> _expenses = new ObservableCollection<Expense>();
@@ -73,13 +67,13 @@ namespace TravelBudgetApp.ViewModels
             }
 
 
-            if (string.IsNullOrEmpty(SelectedExpense) || ExpenseAmount <= 0)
+            if (string.IsNullOrEmpty(EnteredExpense) || ExpenseAmount <= 0)
                 return;
 
             // Create new expense with target currency symbol
             var newExpense = new Expense
             {
-                Category = SelectedExpense,
+                Category = EnteredExpense,
                 AmountInTargetCurrency = ExpenseAmount,
                 AmountInHomeCurrency = ExpenseAmount / ExchangeRate // Convert to home currency
             };
@@ -92,15 +86,15 @@ namespace TravelBudgetApp.ViewModels
 
             // Reset input fields
             ExpenseAmount = 0;
-            SelectedExpense = null;
+            EnteredExpense = null;
         }
 
         [RelayCommand]
         private async Task GoBack()
         {
-            // Logic to navigate back to the previous page
-            await _navigation.PopAsync(); // Assuming you're using Xamarin.Forms or similar
-            // This could be a navigation service call or similar
+         
+            await _navigation.PopAsync(); 
+            
         }
     }
 
