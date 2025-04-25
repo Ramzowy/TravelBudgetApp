@@ -20,7 +20,7 @@
             <Image Source="travel_icon2.png" 
                    HeightRequest="30" 
                 HorizontalOptions="Center"/>
-                <Label Text="Travel Budget Appp"
+                <Label Text="Travel Budget App"
                     FontSize="18"
                     FontAttributes="Bold" 
                    TextColor="#2F3E46"/>
